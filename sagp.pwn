@@ -8,8 +8,6 @@
 main() 
 {
 	print("San Andreas GP Started!");
-	// run "sampctl package build" to compile
-	// then run "sampctl package run" to run it
 }
 
 public OnGameModeInit() {
