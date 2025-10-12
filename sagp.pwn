@@ -22,3 +22,21 @@ main() {
 	print("San Andreas GP Started!");
 }
 
+public OnGameModeInit() {
+    SetGameModeText("San Andreas GP | Racing / Freemode");
+    
+    g_SQL = mysql_connect("127.0.0.1", "root", "", "sagp"); // thog dont care
+    
+    if(mysql_errno(g_SQL) != 0) {
+        print("[MySQL] Failed to connect to database!");
+    } else {
+        print("[MySQL] Successfully connected to database!");
+    }
+    
+    return 1;
+}
+
+public OnGameModeExit() {
+    mysql_close(g_SQL);
+    return 1;
+}
