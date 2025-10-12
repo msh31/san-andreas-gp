@@ -5,27 +5,20 @@
 #include <zcmd>
 #include <bcrypt>
 
+new MySQL:g_SQL;
+
+// data
+enum PlayerData {
+    pID,
+    pName[MAX_PLAYER_NAME],
+    bool:pLoggedIn,
+    pMoney,
+    pRacesWon,
+    pRacesLost
+}
+new Player[MAX_PLAYERS][PlayerData];
+
 main() {
 	print("San Andreas GP Started!");
 }
 
-public OnGameModeInit() {
-    SetGameModeText("San Andreas GP | Racing / Freemode");
-    AddPlayerClass(0, 0.0, 0.0, 5.0, 0.0, 0, 0, 0, 0, 0, 0);
-    
-    // MySQL_Connect();
-    // LoadRaces();
-    // LoadVehicles();
-    
-    return 1;
-}
-
-public OnPlayerConnect(playerid) {
-    // Check if registered, show login/register dialog
-    return 1;
-}
-
-public OnPlayerSpawn(playerid) {
-    // Spawn player at race selection area
-    return 1;
-}
