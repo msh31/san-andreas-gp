@@ -1,0 +1,11 @@
+{
+	"user": "msh31",
+	"repo": "san-andreas-gp",
+	"tag": "0.0.1",
+	"entry": "sagp.pwn",
+	"output": "gamemodes/sagp.amx",
+	"dependencies": [
+		"pawn-lang/samp-stdlib"
+	],
+	"local": true
+}
