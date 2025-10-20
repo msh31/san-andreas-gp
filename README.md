@@ -46,7 +46,7 @@ sampctl p ensure
 3. Set up your MySQL database:
    - Create a database named `sagp`
    - Update connection details in `sagp.pwn` if needed
-   - Import the provided database schema *(to create)*
+   - Import the provided database schema
 
 4. Build the gamemode:
 ```bash
@@ -75,4 +75,5 @@ sampctl build
 Pull requests are welcome! For major changes, please open an issue first.
 
 ## License
-To be decided.
+This project is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/)
+[![CC BY-NC 4.0](https://licensebuttons.net/l/by-nc/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc/4.0/)
