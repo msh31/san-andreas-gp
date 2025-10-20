@@ -5,38 +5,48 @@
 #include <zcmd>
 #include <samp_bcrypt>
 
-new MySQL:g_SQL;
+#include "includes/core/config.inc"
+#include "includes/core/database.inc"
+// #include "includes/core/player.inc"
 
-// data
-enum PlayerData {
-    pID,
-    pName[MAX_PLAYER_NAME],
-    bool:pLoggedIn,
-    pMoney,
-    pRacesWon,
-    pRacesLost
-}
-new Player[MAX_PLAYERS][PlayerData]; //TODO: use this
+// #include "includes/systems/economy.inc"
+// #include "includes/systems/leveling.inc"
+// #include "includes/systems/vehicles.inc"
+// #include "includes/systems/garage.inc"
+// #include "includes/systems/races.inc"
+
+// #include "includes/races/sprint.inc"
+// #include "includes/races/circuit.inc"
+// #include "includes/races/drift.inc"
+// #include "includes/races/drag.inc"
+// #include "includes/races/offroad.inc"
+// #include "includes/races/motorcycle.inc"
+
+// #include "includes/shops/vehicles.inc"
+// #include "includes/shops/tuning.inc"
+
+// UI stuff
+// #include "includes/dialogs/player.inc"
+// #include "includes/dialogs/shop.inc"
+// #include "includes/dialogs/garage.inc"
+
+// #include "includes/commands/player.inc"
+// #include "includes/commands/race.inc"
+// #include "includes/commands/vehicle.inc"
+// #include "includes/commands/admin.inc"
 
 main() {
-	print("San Andreas GP Started!");
+    print("San Andreas GP Started!");
 }
 
 public OnGameModeInit() {
     SetGameModeText("San Andreas GP | Racing / Freemode");
-
-    g_SQL = mysql_connect("127.0.0.1", "root", "root", "sagp"); // thog dont care
-
-    if(mysql_errno(g_SQL) != 0) {
-        print("[MySQL] Failed to connect to database!");
-    } else {
-        print("[MySQL] Successfully connected to database!");
-    }
+    Database_Connect();
 
     return 1;
 }
 
 public OnGameModeExit() {
-    mysql_close(g_SQL);
+    Database_Disconnect();
     return 1;
 }
