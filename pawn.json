@@ -1,16 +1,14 @@
 {
-    "user": "msh31",
-    "repo": "san-andreas-gp",
-    "entry": "sagp.pwn",
-    "output": "gamemodes/sagp.amx",
-    "dependencies": [
-        "pawn-lang/samp-stdlib"
-    ],
-    "builds": [
-        {
-            "name": "default",
-            "includes": ["includes"]
-        }
-    ],
-    "local": true
+  "user": "msh31",
+  "repo": "san-andreas-gp",
+  "entry": "sagp.pwn",
+  "output": "gamemodes/sagp.amx",
+  "dependencies": ["pawn-lang/samp-stdlib"],
+  "builds": [
+    {
+      "name": "default",
+      "includes": ["includes"]
+    }
+  ],
+  "local": true
 }

@@ -3,7 +3,7 @@
 #include <a_mysql>
 #include <sscanf2>
 #include <zcmd>
-#include <bcrypt>
+#include <samp_bcrypt>
 
 new MySQL:g_SQL;
 
@@ -16,7 +16,7 @@ enum PlayerData {
     pRacesWon,
     pRacesLost
 }
-new Player[MAX_PLAYERS][PlayerData];
+new Player[MAX_PLAYERS][PlayerData]; //TODO: use this
 
 main() {
 	print("San Andreas GP Started!");
@@ -24,15 +24,15 @@ main() {
 
 public OnGameModeInit() {
     SetGameModeText("San Andreas GP | Racing / Freemode");
-    
-    g_SQL = mysql_connect("127.0.0.1", "root", "", "sagp"); // thog dont care
-    
+
+    g_SQL = mysql_connect("127.0.0.1", "root", "root", "sagp"); // thog dont care
+
     if(mysql_errno(g_SQL) != 0) {
         print("[MySQL] Failed to connect to database!");
     } else {
         print("[MySQL] Successfully connected to database!");
     }
-    
+
     return 1;
 }
 
