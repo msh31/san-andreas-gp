@@ -1,63 +1,78 @@
-# san-andreas-gp
+# San Andreas GP
+
+A racing and freemode gamemode for SA-MP (San Andreas Multiplayer).
 
 [![sampctl](https://img.shields.io/badge/sampctl-san--andreas--gp-2f2f2f.svg?style=for-the-badge)](https://github.com/msh31/san-andreas-gp)
 
-<!--
-Short description of your library, why it's useful, some examples, pictures or
-videos. Link to your forum release thread too.
+## Information
+This gamemode was inspired by Need For Speed Unbound & Heat's multiplayer. \
+(Like NFS, the player is always inside a vehicle in 99% of cases)
 
-Remember: You can use "forumfmt" to convert this readme to forum BBCode!
+## Features (wip)
+- Freeroam with joinable races through invites or map markers
+- Car shop and garages for players to use.
+- Level system, like NFS Heat. (Daytime: earn money, Nightime: earn REP/XP)
+- Authentication system
+- Race statistics tracking (wins/losses & more!)
 
-What the sections below should be used for:
+### Race types
+- Drifting, with GTA Online like gameplay
+- Drag races
+- Sprint races
+- Circuit races
+- Off road races
+- Motorcycle races
 
-`## Installation`: Leave this section un-edited unless you have some specific
-additional installation procedure.
+## Development
 
-`## Testing`: Whether your library is tested with a simple `main()` and `print`,
-unit-tested, or demonstrated via prompting the player to connect, you should
-include some basic information for users to try out your code in some way.
+### Prerequisites
 
-And finally, maintaining your version number`:
+- [sampctl](https://github.com/Southclaws/sampctl) - SA-MP development tool
+- MySQL server (local or remote)
 
-* Follow [Semantic Versioning](https://semver.org/)
-* When you release a new version, update `VERSION` and `git tag` it
-* Versioning is important for sampctl to use the version control features
+### Setup
 
-Happy Pawning!
--->
-
-## Installation
-
-Simply install to your project:
-
+1. Clone the repository:
 ```bash
-sampctl package install msh31/san-andreas-gp
+git clone https://github.com/msh31/san-andreas-gp.git
+cd san-andreas-gp
 ```
 
-Include in your code and begin using the library:
-
-```pawn
-#include <san-andreas-gp>
-```
-
-## Usage
-
-<!--
-Write your code documentation or examples here. If your library is documented in
-the source code, direct users there. If not, list your API and describe it well
-in this section. If your library is passive and has no API, simply omit this
-section.
--->
-
-## Testing
-
-<!--
-Depending on whether your package is tested via in-game "demo tests" or
-y_testing unit-tests, you should indicate to readers what to expect below here.
--->
-
-To test, simply run the package:
-
+2. Install dependencies:
 ```bash
-sampctl package run
+sampctl p ensure
 ```
+
+3. Set up your MySQL database:
+   - Create a database named `sagp`
+   - Update connection details in `sagp.pwn` if needed
+   - Import the provided database schema *(to create)*
+
+4. Build the gamemode:
+```bash
+sampctl p build
+```
+
+5. Run the server:
+```bash
+sampctl p run
+```
+
+### Building
+
+**Windows:**
+```bash
+sampctl p build
+```
+
+**macOS/Linux:**
+```bash
+sampctl build
+```
+
+## Contributing
+
+Pull requests are welcome! For major changes, please open an issue first.
+
+## License
+To be decided.
