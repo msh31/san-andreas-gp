@@ -7,7 +7,7 @@
 
 #include "includes/core/config.inc"
 #include "includes/core/database.inc"
-// #include "includes/core/player.inc"
+#include "includes/core/player.inc"
 
 // #include "includes/systems/economy.inc"
 // #include "includes/systems/leveling.inc"
@@ -48,5 +48,17 @@ public OnGameModeInit() {
 
 public OnGameModeExit() {
     Database_Disconnect();
+    return 1;
+}
+
+public OnPlayerConnect(playerid) {
+    Player_OnConnect(playerid);
+    // Auth_OnConnect(playerid); TODO
+    return 1;
+}
+
+public OnPlayerDisconnect(playerid, reason) {
+    Player_OnDisconnect(playerid, reason);
+
     return 1;
 }
