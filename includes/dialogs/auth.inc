@@ -70,3 +70,107 @@ public CheckPlayerAccount(playerid) {
 
     return 1;
 }
+
+public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
+    if(!response) {
+        Kick(playerid);
+        return 1;
+    }
+
+    switch(dialogid) {
+        case DIALOG_REGISTER: {
+            if(strlen(inputtext) < 6) {
+                SendClientMessage(playerid, COLOR_ERROR, "Password must be at least 6 characters!");
+                ShowRegisterDialog(playerid);
+                return 1;
+            }
+
+            bcrypt_hash(playerid, "OnPasswordHashed", inputtext, BCRYPT_COST);
+        }
+        case DIALOG_LOGIN: {
+            new query[256], name[MAX_PLAYER_NAME];
+            GetPlayerName(playerid, name, sizeof(name));
+
+            mysql_format(Database_GetHandle(), query, sizeof(query),
+                "SELECT `id`, `password` FROM `players` WHERE `name` = '%e'", name);
+
+            mysql_tquery(Database_GetHandle(), query, "OnPasswordLoad", "ds", playerid, inputtext);
+        }
+    }
+
+    return 1;
+}
+
+forward OnPasswordHashed(playerid);
+public OnPasswordHashed(playerid) {
+    if(!IsPlayerConnected(playerid)) {
+        return 0;
+    }
+
+    new hash[BCRYPT_HASH_LENGTH];
+    bcrypt_get_hash(hash);
+
+    new query[512], name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, sizeof(name));
+
+    mysql_format(Database_GetHandle(), query, sizeof(query),
+        "INSERT INTO `players` (`name`, `password`, `money`, `level`) VALUES ('%e', '%e', %d, %d)",
+        name, hash, STARTING_MONEY, STARTING_LEVEL
+    );
+
+    mysql_tquery(Database_GetHandle(), query, "OnPlayerRegistered", "d", playerid);
+
+    return 1;
+}
+
+forward OnPasswordChecked(playerid, bool:success);
+public OnPasswordChecked(playerid, bool:success) {
+    if(!IsPlayerConnected(playerid)) {
+        return 0;
+    }
+
+    if(success) {
+        //LoadPlayerData(playerid);
+        SendClientMessage(playerid, COLOR_SUCCESS, "Welcome back to San Andreas GP!");
+    } else {
+        SendClientMessage(playerid, COLOR_ERROR, "Incorrect password!");
+        ShowLoginDialog(playerid, "Incorrect password!");
+    }
+
+    return 1;
+}
+
+forward OnPlayerRegistered(playerid);
+public OnPlayerRegistered(playerid) {
+    if(!IsPlayerConnected(playerid)) {
+         return 0;
+    }
+
+    new dbid = cache_insert_id();
+    SetPlayerLoggedIn(playerid, dbid);
+
+    //TODO: set new player stats (economy.inc)
+
+    SendClientMessage(playerid, COLOR_SUCCESS, "Account created successfully!");
+    SpawnPlayer(playerid);
+    return 1;
+}
+
+forward OnPasswordLoad(playerid, inputtext[]);
+public OnPasswordLoad(playerid, inputtext[]) {
+    if(!IsPlayerConnected(playerid)) {
+        return 0;
+    }
+
+    if(cache_num_rows() == 0) {
+        // account doesnt exist somehow
+        Kick(playerid);
+        return 0;
+    }
+
+    new hash[BCRYPT_HASH_LENGTH];
+    cache_get_value_name(0, "password", hash);
+
+    bcrypt_verify(playerid, "OnPasswordChecked", inputtext, hash);
+    return 1;
+}
