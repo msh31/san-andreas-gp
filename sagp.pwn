@@ -26,7 +26,7 @@
 // #include "includes/shops/tuning.inc"
 
 // UI stuff
-// #include "includes/dialogs/player.inc"
+#include "includes/dialogs/auth.inc"
 // #include "includes/dialogs/shop.inc"
 // #include "includes/dialogs/garage.inc"
 
@@ -56,7 +56,7 @@ public OnGameModeExit() {
 
 public OnPlayerConnect(playerid) {
     Player_OnConnect(playerid);
-    // Auth_OnConnect(playerid); TODO
+    //Auth_CheckPlayerAccount(playerid);
     return 1;
 }
 
