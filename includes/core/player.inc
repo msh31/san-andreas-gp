@@ -93,6 +93,9 @@ stock UpdatePlaytime(playerid) {
 stock Player_OnConnect(playerid) {
     ResetPlayerData(playerid);
     Auth_CheckPlayerAccount(playerid);
+
+    CreatePlayerHUD(playerid);
+
     return 1;
 }
 

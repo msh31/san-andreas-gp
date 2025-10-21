@@ -25,8 +25,8 @@
 // #include "includes/shops/vehicles.inc"
 // #include "includes/shops/tuning.inc"
 
-// UI stuff
-#include "includes/dialogs/auth.inc"
+#include "includes/systems/hud.inc"
+#include "includes/dialogs/auth.inc" // includes logic
 // #include "includes/dialogs/shop.inc"
 // #include "includes/dialogs/garage.inc"
 
