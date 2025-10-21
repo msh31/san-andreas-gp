@@ -80,6 +80,8 @@ public OnPlayerSpawn(playerid) {
         return 0;
     }
 
+    CreatePlayerHUD(playerid);
+
     SetSpawnInfo(playerid, 0, 0, 2495.33, 1644.80, 10.80, 0.0, 0, 0, 0, 0, 0, 0);
 
     SetPlayerPos(playerid, 2495.33, 1644.80, 10.80);
