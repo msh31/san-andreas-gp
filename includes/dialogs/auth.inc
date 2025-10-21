@@ -3,6 +3,8 @@
 #endif
 #define _auth_included
 
+#define BCRYPT_COST 12
+
 stock Auth_OnConnect(playerid) {
     ShowRegisterDialog(playerid);
 
@@ -44,4 +46,19 @@ stock ShowLoginDialog(playerid, const reason[] = "") {
         "Login",
         "Quit"
     );
+}
+
+forward Auth_CheckPlayerAccount(playerid);
+public Auth_CheckPlayerAccount(playerid) {
+    if(!IsPlayerConnected(playerid)) {
+        return 0;
+    }
+
+    if(cache_num_rows() > 0) {
+        ShowLoginDialog(playerid);
+    } else {
+        ShowRegisterDialog(playerid);
+    }
+
+    return 1;
 }

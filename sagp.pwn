@@ -56,7 +56,7 @@ public OnGameModeExit() {
 
 public OnPlayerConnect(playerid) {
     Player_OnConnect(playerid);
-    //Auth_CheckPlayerAccount(playerid);
+    Auth_CheckPlayerAccount(playerid);
     return 1;
 }
 
