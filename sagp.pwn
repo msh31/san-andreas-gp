@@ -43,6 +43,9 @@ public OnGameModeInit() {
     SetGameModeText("San Andreas GP | Racing / Freemode");
     Database_Connect();
 
+    AddPlayerClass(0, 2495.33, 1644.80, 10.80, 0.0, 0, 0, 0, 0, 0, 0);
+    //             ^ skin, x, y, z, angle, weapons...
+
     return 1;
 }
 
@@ -59,6 +62,33 @@ public OnPlayerConnect(playerid) {
 
 public OnPlayerDisconnect(playerid, reason) {
     Player_OnDisconnect(playerid, reason);
+
+    return 1;
+}
+
+public OnPlayerRequestClass(playerid, classid) {
+    SetPlayerPos(playerid, 2495.33, 1644.80, 10.80);
+    SetPlayerCameraPos(playerid, 2495.33, 1644.80, 10.80);
+    SetPlayerCameraLookAt(playerid, 2500.0, 1644.80, 10.80);
+    SetPlayerFacingAngle(playerid, 0.0);
+    return 1;
+}
+
+public OnPlayerSpawn(playerid) {
+    if(!IsPlayerLoggedIn(playerid)) {
+        //TogglePlayerSpectating(playerid, true);
+        //TogglePlayerSpectating(playerid, false);
+        return 0;
+    }
+
+    SetSpawnInfo(playerid, 0, 0, 2495.33, 1644.80, 10.80, 0.0, 0, 0, 0, 0, 0, 0);
+
+    SetPlayerPos(playerid, 2495.33, 1644.80, 10.80);
+    SetPlayerFacingAngle(playerid, 0.0);
+    SetPlayerInterior(playerid, 0); //outside, 1 = interiors, 5 = jefferson motel, 7 = caligula's casino
+    SetPlayerVirtualWorld(playerid, 0); //0 = default world, 1 = isolated dimension, 2 = another isolated dimension (for races)
+
+    // later: spawn them in their last vehicle at last position
 
     return 1;
 }
