@@ -3,10 +3,8 @@
 #endif
 #define _auth_included
 
-#define BCRYPT_COST 12
-
 stock Auth_OnConnect(playerid) {
-    ShowRegisterDialog(playerid);
+    Auth_CheckPlayerAccount(playerid);
 
     return 1;
 }
@@ -48,8 +46,18 @@ stock ShowLoginDialog(playerid, const reason[] = "") {
     );
 }
 
-forward Auth_CheckPlayerAccount(playerid);
-public Auth_CheckPlayerAccount(playerid) {
+stock Auth_CheckPlayerAccount(playerid) {
+    new query[128], name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, sizeof(name));
+
+    mysql_format(Database_GetHandle(), query, sizeof(query),
+        "SELECT `id` FROM `players` WHERE `name` = '%e'", name);
+
+    mysql_tquery(Database_GetHandle(), query, "CheckPlayerAccount", "d", playerid);
+}
+
+forward CheckPlayerAccount(playerid);
+public CheckPlayerAccount(playerid) {
     if(!IsPlayerConnected(playerid)) {
         return 0;
     }
