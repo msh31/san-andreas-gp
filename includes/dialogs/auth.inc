@@ -3,6 +3,9 @@
 #endif
 #define _auth_included
 
+#define STARTING_MONEY 5000
+#define STARTING_LEVEL 1
+
 stock Auth_OnConnect(playerid) {
     Auth_CheckPlayerAccount(playerid);
 
@@ -131,7 +134,6 @@ public OnPasswordChecked(playerid, bool:success) {
 
     if(success) {
         //LoadPlayerData(playerid);
-        SendClientMessage(playerid, COLOR_SUCCESS, "Welcome back to San Andreas GP!");
     } else {
         SendClientMessage(playerid, COLOR_ERROR, "Incorrect password!");
         ShowLoginDialog(playerid, "Incorrect password!");
@@ -143,13 +145,21 @@ public OnPasswordChecked(playerid, bool:success) {
 forward OnPlayerRegistered(playerid);
 public OnPlayerRegistered(playerid) {
     if(!IsPlayerConnected(playerid)) {
-         return 0;
+        return 0;
     }
 
     new dbid = cache_insert_id();
     SetPlayerLoggedIn(playerid, dbid);
 
-    //TODO: set new player stats (economy.inc)
+    Player[playerid][pMoney] = STARTING_MONEY;
+    Player[playerid][pLevel] = STARTING_LEVEL;
+    Player[playerid][pBank] = 0;
+    Player[playerid][pRep] = 0;
+    Player[playerid][pExp] = 0;
+    Player[playerid][pTotalRaces] = 0;
+    Player[playerid][pRacesWon] = 0;
+    Player[playerid][pRacesLost] = 0;
+    Player[playerid][pTotalDistance] = 0.0;
 
     SendClientMessage(playerid, COLOR_SUCCESS, "Account created successfully!");
     SpawnPlayer(playerid);
