@@ -56,7 +56,6 @@ public OnGameModeExit() {
 
 public OnPlayerConnect(playerid) {
     Player_OnConnect(playerid);
-    Auth_OnConnect(playerid);
     return 1;
 }
 
@@ -76,8 +75,8 @@ public OnPlayerRequestClass(playerid, classid) {
 
 public OnPlayerSpawn(playerid) {
     if(!IsPlayerLoggedIn(playerid)) {
-        //TogglePlayerSpectating(playerid, true);
-        //TogglePlayerSpectating(playerid, false);
+        TogglePlayerSpectating(playerid, true);
+        TogglePlayerSpectating(playerid, false);
         return 0;
     }
 

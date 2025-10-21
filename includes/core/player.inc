@@ -92,16 +92,14 @@ stock UpdatePlaytime(playerid) {
 
 stock Player_OnConnect(playerid) {
     ResetPlayerData(playerid);
-
-    // check if account exists (TODO: in auth.inc later)
-    // Show login or register dialog (TODO)
+    Auth_CheckPlayerAccount(playerid);
     return 1;
 }
 
 stock Player_OnDisconnect(playerid, reason) {
     if(IsPlayerLoggedIn(playerid)) {
         UpdatePlaytime(playerid);     // calculate session time
-        //SavePlayerData(playerid);     // save to database (TODO: in auth.inc)
+        SavePlayerData(playerid);     // save to database
     }
 
     ResetPlayerData(playerid);

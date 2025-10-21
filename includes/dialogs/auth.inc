@@ -6,12 +6,6 @@
 #define STARTING_MONEY 5000
 #define STARTING_LEVEL 1
 
-stock Auth_OnConnect(playerid) {
-    Auth_CheckPlayerAccount(playerid);
-
-    return 1;
-}
-
 stock ShowRegisterDialog(playerid) {
     ShowPlayerDialog(
         playerid,
@@ -133,7 +127,7 @@ public OnPasswordChecked(playerid, bool:success) {
     }
 
     if(success) {
-        //LoadPlayerData(playerid);
+        LoadPlayerData(playerid);
     } else {
         SendClientMessage(playerid, COLOR_ERROR, "Incorrect password!");
         ShowLoginDialog(playerid, "Incorrect password!");
@@ -182,5 +176,72 @@ public OnPasswordLoad(playerid, inputtext[]) {
     cache_get_value_name(0, "password", hash);
 
     bcrypt_verify(playerid, "OnPasswordChecked", inputtext, hash);
+    return 1;
+}
+
+stock SavePlayerData(playerid) {
+    if(!IsPlayerLoggedIn(playerid)) {
+        return 0;
+    }
+
+    new query[512];
+    mysql_format(Database_GetHandle(), query, sizeof(query),
+        "UPDATE `players` SET `money`=%d, `bank`=%d, `level`=%d, `rep`=%d, `exp`=%d, \
+        `total_races`=%d, `races_won`=%d, `races_lost`=%d, `total_distance`=%f, `playtime`=%d \
+        WHERE `id`=%d",
+        Player[playerid][pMoney],
+        Player[playerid][pBank],
+        Player[playerid][pLevel],
+        Player[playerid][pRep],
+        Player[playerid][pExp],
+        Player[playerid][pTotalRaces],
+        Player[playerid][pRacesWon],
+        Player[playerid][pRacesLost],
+        Player[playerid][pTotalDistance],
+        Player[playerid][pPlaytime],
+        Player[playerid][pDBID]
+    );
+
+    mysql_tquery(Database_GetHandle(), query, "", "");
+    return 1;
+}
+
+stock LoadPlayerData(playerid) {
+    new query[256], name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, sizeof(name));
+
+    mysql_format(Database_GetHandle(), query, sizeof(query),
+        "SELECT * FROM `players` WHERE `name` = '%e'", name);
+
+    mysql_tquery(Database_GetHandle(), query, "OnPlayerDataLoaded", "d", playerid);
+}
+
+forward OnPlayerDataLoaded(playerid);
+public OnPlayerDataLoaded(playerid) {
+    if(!IsPlayerConnected(playerid)) {
+        return 0;
+    }
+
+    if(cache_num_rows() == 0) {
+         return 0;
+    }
+
+    new dbid;
+    cache_get_value_name_int(0, "id", dbid);
+    cache_get_value_name_int(0, "money", Player[playerid][pMoney]);
+    cache_get_value_name_int(0, "bank", Player[playerid][pBank]);
+    cache_get_value_name_int(0, "level", Player[playerid][pLevel]);
+    cache_get_value_name_int(0, "rep", Player[playerid][pRep]);
+    cache_get_value_name_int(0, "exp", Player[playerid][pExp]);
+    cache_get_value_name_int(0, "total_races", Player[playerid][pTotalRaces]);
+    cache_get_value_name_int(0, "races_won", Player[playerid][pRacesWon]);
+    cache_get_value_name_int(0, "races_lost", Player[playerid][pRacesLost]);
+    cache_get_value_name_float(0, "total_distance", Player[playerid][pTotalDistance]);
+    cache_get_value_name_int(0, "playtime", Player[playerid][pPlaytime]);
+
+    SetPlayerLoggedIn(playerid, dbid);
+    SendClientMessage(playerid, COLOR_SUCCESS, "Successfully logged in, welcome back to San Andreas GP!");
+    SpawnPlayer(playerid);
+
     return 1;
 }
