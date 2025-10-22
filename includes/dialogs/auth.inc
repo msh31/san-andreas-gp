@@ -237,5 +237,13 @@ public OnPlayerDataLoaded(playerid) {
     SendClientMessage(playerid, COLOR_SUCCESS, "Successfully logged in, welcome back to San Andreas GP!");
     SpawnPlayer(playerid);
 
+    new ip[16];
+    GetPlayerIp(playerid, ip, sizeof(ip));
+    new query[128];
+
+    mysql_format(Database_GetHandle(), query, sizeof(query),
+        "UPDATE `players` SET `ip_address`='%e' WHERE `id`=%d", ip, dbid);
+    mysql_tquery(Database_GetHandle(), query, "", "");
+
     return 1;
 }
