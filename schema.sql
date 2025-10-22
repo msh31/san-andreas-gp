@@ -3,11 +3,11 @@ CREATE TABLE IF NOT EXISTS `players` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(24) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
+  `ip_address` VARCHAR(16) DEFAULT NULL,
   `money` INT DEFAULT 5000,
-  `bank` INT DEFAULT 0,
   `level` INT DEFAULT 1,
   `rep` INT DEFAULT 0,
-  `exp` INT DEFAULT 0,
+  `last_vehicle_id` INT DEFAULT NULL,
   `total_races` INT DEFAULT 0,
   `races_won` INT DEFAULT 0,
   `races_lost` INT DEFAULT 0,
@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS `players` (
   `last_login` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `playtime` INT DEFAULT 0,
-  INDEX `idx_name` (`name`)
+  INDEX `idx_name` (`name`),
+  INDEX `idx_ip_address` (`ip_address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Invidual player vehicles
@@ -31,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `player_vehicles` (
   `pos_z` FLOAT DEFAULT 0.0,
   `pos_a` FLOAT DEFAULT 0.0,
   `health` FLOAT DEFAULT 1000.0,
-  `fuel` FLOAT DEFAULT 100.0,
   `plate` VARCHAR(32) DEFAULT NULL,
   `purchased_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`player_id`) REFERENCES `players`(`id`) ON DELETE CASCADE,
@@ -90,16 +90,16 @@ CREATE TABLE IF NOT EXISTS `race_checkpoints` (
   INDEX `idx_race_id` (`race_id`, `checkpoint_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Player statistics (daily/nightly tracking like NFS Heat)
+-- Player statistics (daily/nightly tracking, resets daily)
 CREATE TABLE IF NOT EXISTS `player_stats` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `player_id` INT NOT NULL,
   `stat_date` DATE NOT NULL,
-  `day_money_earned` INT DEFAULT 0,
-  `night_rep_earned` INT DEFAULT 0,
+  `money_earned` INT DEFAULT 0,
+  `rep_earned` INT DEFAULT 0,
   `races_completed` INT DEFAULT 0,
-  `distance_driven` FLOAT DEFAULT 0.0,
-  -- TODO: add more stats
+  `races_won` INT DEFAULT 0,
+  `races_lost` INT DEFAULT 0,
   FOREIGN KEY (`player_id`) REFERENCES `players`(`id`) ON DELETE CASCADE,
   UNIQUE KEY `unique_stat` (`player_id`, `stat_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
