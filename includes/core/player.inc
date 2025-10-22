@@ -93,7 +93,7 @@ stock Player_OnConnect(playerid) {
     return 1;
 }
 
-stock Player_OnDisconnect(playerid, reason) {
+stock Player_OnDisconnect(playerid) {
     if(IsPlayerLoggedIn(playerid)) {
         UpdatePlaytime(playerid);     // calculate session time
         SavePlayerData(playerid);     // save to database
