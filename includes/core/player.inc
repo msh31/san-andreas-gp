@@ -93,6 +93,7 @@ stock UpdatePlaytime(playerid) {
 stock Player_OnConnect(playerid) {
     ResetPlayerData(playerid);
     Auth_CheckPlayerAccount(playerid);
+
     return 1;
 }
 

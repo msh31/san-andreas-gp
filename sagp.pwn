@@ -25,8 +25,8 @@
 // #include "includes/shops/vehicles.inc"
 // #include "includes/shops/tuning.inc"
 
-// UI stuff
-#include "includes/dialogs/auth.inc"
+#include "includes/systems/hud.inc"
+#include "includes/dialogs/auth.inc" // includes logic
 // #include "includes/dialogs/shop.inc"
 // #include "includes/dialogs/garage.inc"
 
@@ -79,6 +79,8 @@ public OnPlayerSpawn(playerid) {
         TogglePlayerSpectating(playerid, false);
         return 0;
     }
+
+    CreatePlayerHUD(playerid);
 
     SetSpawnInfo(playerid, 0, 0, 2495.33, 1644.80, 10.80, 0.0, 0, 0, 0, 0, 0, 0);
 
