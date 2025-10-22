@@ -96,7 +96,8 @@ stock Player_OnConnect(playerid) {
 stock Player_OnDisconnect(playerid) {
     if(IsPlayerLoggedIn(playerid)) {
         UpdatePlaytime(playerid);     // calculate session time
-        SavePlayerData(playerid);     // save to database
+        SavePlayerData(playerid);     // save player/vehicle etc.. to database
+        SaveVehicleData(playerid);
     }
 
     ResetPlayerData(playerid);
