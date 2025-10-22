@@ -7,10 +7,8 @@ enum PlayerData {
     pDBID,              // database id
     bool:pLoggedIn,
     pMoney,
-    pBank,
     pLevel,
     pRep,
-    pExp,
     pTotalRaces,
     pRacesWon,
     pRacesLost,
@@ -29,10 +27,8 @@ stock ResetPlayerData(playerid) {
     Player[playerid][pDBID] = 0;
     Player[playerid][pLoggedIn] = false;
     Player[playerid][pMoney] = 0;
-    Player[playerid][pBank] = 0;
     Player[playerid][pLevel] = 0;
     Player[playerid][pRep] = 0;
-    Player[playerid][pExp] = 0;
     Player[playerid][pTotalRaces] = 0;
     Player[playerid][pRacesWon] = 0;
     Player[playerid][pRacesLost] = 0;

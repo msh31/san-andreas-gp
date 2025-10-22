@@ -147,9 +147,7 @@ public OnPlayerRegistered(playerid) {
 
     Player[playerid][pMoney] = STARTING_MONEY;
     Player[playerid][pLevel] = STARTING_LEVEL;
-    Player[playerid][pBank] = 0;
     Player[playerid][pRep] = 0;
-    Player[playerid][pExp] = 0;
     Player[playerid][pTotalRaces] = 0;
     Player[playerid][pRacesWon] = 0;
     Player[playerid][pRacesLost] = 0;
@@ -186,14 +184,12 @@ stock SavePlayerData(playerid) {
 
     new query[512];
     mysql_format(Database_GetHandle(), query, sizeof(query),
-        "UPDATE `players` SET `money`=%d, `bank`=%d, `level`=%d, `rep`=%d, `exp`=%d, \
+        "UPDATE `players` SET `money`=%d, `level`=%d, `rep`=%d, \
         `total_races`=%d, `races_won`=%d, `races_lost`=%d, `total_distance`=%f, `playtime`=%d \
         WHERE `id`=%d",
         Player[playerid][pMoney],
-        Player[playerid][pBank],
         Player[playerid][pLevel],
         Player[playerid][pRep],
-        Player[playerid][pExp],
         Player[playerid][pTotalRaces],
         Player[playerid][pRacesWon],
         Player[playerid][pRacesLost],
@@ -229,10 +225,8 @@ public OnPlayerDataLoaded(playerid) {
     new dbid;
     cache_get_value_name_int(0, "id", dbid);
     cache_get_value_name_int(0, "money", Player[playerid][pMoney]);
-    cache_get_value_name_int(0, "bank", Player[playerid][pBank]);
     cache_get_value_name_int(0, "level", Player[playerid][pLevel]);
     cache_get_value_name_int(0, "rep", Player[playerid][pRep]);
-    cache_get_value_name_int(0, "exp", Player[playerid][pExp]);
     cache_get_value_name_int(0, "total_races", Player[playerid][pTotalRaces]);
     cache_get_value_name_int(0, "races_won", Player[playerid][pRacesWon]);
     cache_get_value_name_int(0, "races_lost", Player[playerid][pRacesLost]);
