@@ -11,7 +11,7 @@
 
 // #include "includes/systems/economy.inc"
 // #include "includes/systems/leveling.inc"
-// #include "includes/systems/vehicles.inc"
+#include "includes/systems/vehicles.inc"
 // #include "includes/systems/garage.inc"
 // #include "includes/systems/races.inc"
 
@@ -59,8 +59,8 @@ public OnPlayerConnect(playerid) {
     return 1;
 }
 
-public OnPlayerDisconnect(playerid, reason) {
-    Player_OnDisconnect(playerid, reason);
+public OnPlayerDisconnect(playerid) {
+    Player_OnDisconnect(playerid);
 
     return 1;
 }
@@ -82,14 +82,22 @@ public OnPlayerSpawn(playerid) {
 
     CreatePlayerHUD(playerid);
 
-    SetSpawnInfo(playerid, 0, 0, 2495.33, 1644.80, 10.80, 0.0, 0, 0, 0, 0, 0, 0);
+    SetPlayerInterior(playerid, 0);
+    SetPlayerVirtualWorld(playerid, 0);
 
-    SetPlayerPos(playerid, 2495.33, 1644.80, 10.80);
-    SetPlayerFacingAngle(playerid, 0.0);
-    SetPlayerInterior(playerid, 0); //outside, 1 = interiors, 5 = jefferson motel, 7 = caligula's casino
-    SetPlayerVirtualWorld(playerid, 0); //0 = default world, 1 = isolated dimension, 2 = another isolated dimension (for races)
+    new modelID = CurrentVehicle[playerid][vModelID];
+    new color1 = CurrentVehicle[playerid][vColor1];
+    new color2 = CurrentVehicle[playerid][vColor2];
+    new Float:x = CurrentVehicle[playerid][vPos_x];
+    new Float:y = CurrentVehicle[playerid][vPos_y];
+    new Float:z = CurrentVehicle[playerid][vPos_z];
+    new Float:a = CurrentVehicle[playerid][vPos_a];
 
-    // later: spawn them in their last vehicle at last position
+    new vehicleid = CreateVehicle(modelID, x, y, z, a, color1, color2, -1);
+    CurrentVehicle[playerid][vSAMPID] = vehicleid;
+
+    PutPlayerInVehicle(playerid, vehicleid, 0);
+    SetVehicleParamsForPlayer(vehicleid, playerid, 0, 1);
 
     return 1;
 }
