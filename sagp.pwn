@@ -89,7 +89,9 @@ public OnPlayerSpawn(playerid) {
     SetPlayerInterior(playerid, 0); //outside, 1 = interiors, 5 = jefferson motel, 7 = caligula's casino
     SetPlayerVirtualWorld(playerid, 0); //0 = default world, 1 = isolated dimension, 2 = another isolated dimension (for races)
 
-    // later: spawn them in their last vehicle at last position
+    //todo
+    //CreateVehicle
+    //PutPlayerInVehicle
 
     return 1;
 }

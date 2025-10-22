@@ -153,6 +153,8 @@ public OnPlayerRegistered(playerid) {
     Player[playerid][pRacesLost] = 0;
     Player[playerid][pTotalDistance] = 0.0;
 
+    GivePlayerStarterVehicle(playerid);
+
     SendClientMessage(playerid, COLOR_SUCCESS, "Account created successfully!");
     SpawnPlayer(playerid);
     return 1;
@@ -232,6 +234,13 @@ public OnPlayerDataLoaded(playerid) {
     cache_get_value_name_int(0, "races_lost", Player[playerid][pRacesLost]);
     cache_get_value_name_float(0, "total_distance", Player[playerid][pTotalDistance]);
     cache_get_value_name_int(0, "playtime", Player[playerid][pPlaytime]);
+
+    new lastVehicleID;
+    cache_get_value_name_int(0, "last_vehicle_id", lastVehicleID);
+
+    if(lastVehicleID > 0) { // they got a vehicle, if somehow they dont
+        LoadPlayerVehicle(playerid, lastVehicleID);
+    }
 
     SetPlayerLoggedIn(playerid, dbid);
     SendClientMessage(playerid, COLOR_SUCCESS, "Successfully logged in, welcome back to San Andreas GP!");

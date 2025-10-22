@@ -95,3 +95,38 @@ public OnVehicleCreated(playerid) {
     );
     mysql_tquery(Database_GetHandle(), updateQuery, "", "");
 }
+
+stock LoadPlayerVehicle(playerid, vehicleDBID) {
+    new query[256];
+    mysql_format(Database_GetHandle(), query, sizeof(query),
+        "SELECT * FROM `player_vehicles` WHERE `id` = %d",
+        vehicleDBID
+    );
+
+    mysql_tquery(Database_GetHandle(), query, "OnPlayerVehicleLoaded", "d", playerid);
+}
+
+forward OnPlayerVehicleLoaded(playerid);
+public OnPlayerVehicleLoaded(playerid) {
+    if(!IsPlayerConnected(playerid)) {
+        return 0;
+    }
+
+    if(cache_num_rows() == 0) {
+         return 0;
+    }
+
+    new dbid;
+    cache_get_value_name_int(0, "id", CurrentVehicle[playerid][vDBID]);
+    cache_get_value_name_int(0, "model_id", CurrentVehicle[playerid][vModelID]);
+    cache_get_value_name_int(0, "color1", CurrentVehicle[playerid][vColor1]);
+    cache_get_value_name_int(0, "color2", CurrentVehicle[playerid][vColor2]);
+    cache_get_value_name_int(0, "paintjob", CurrentVehicle[playerid][vPaintjob]);
+    cache_get_value_name_float(0, "pos_x", CurrentVehicle[playerid][vPos_x]);
+    cache_get_value_name_float(0, "pos_y", CurrentVehicle[playerid][vPos_y]);
+    cache_get_value_name_float(0, "pos_z", CurrentVehicle[playerid][vPos_z]);
+    cache_get_value_name_float(0, "pos_a", CurrentVehicle[playerid][vPos_a]);
+    cache_get_value_name_float(0, "health", CurrentVehicle[playerid][vHealth]);
+
+    return 1;
+}
