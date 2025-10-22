@@ -7,6 +7,27 @@ logs/
 server_log.txt
 crashinfo.txt
 
+# windows samp server stuff, local
+filterscripts/
+npcmodes/
+scriptfiles/
+
+includes/a_actor.inc
+includes/a_http.inc
+includes/a_players.inc
+includes/a_npc.inc
+includes/a_sampdb.inc
+includes/a_objects.inc
+includes/a_samp.inc
+includes/a_vehicles.inc
+includes/core.inc
+includes/datagram.inc
+includes/file.inc
+includes/float.inc
+includes/time.inc
+includes/string.inc
+
+# ban stuff
 samp.ban
 
 # Compiled output
