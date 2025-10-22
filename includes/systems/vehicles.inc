@@ -97,3 +97,32 @@ public OnPlayerVehicleLoaded(playerid) {
 
     return 1;
 }
+
+stock SaveVehicleData(playerid) {
+    if(!IsPlayerLoggedIn(playerid)) {
+        return 0;
+    }
+
+    new vehicleid = CurrentVehicle[playerid][vSAMPID];
+    if(vehicleid != 0) {
+        GetVehiclePos(vehicleid, CurrentVehicle[playerid][vPos_x], CurrentVehicle[playerid][vPos_y], CurrentVehicle[playerid][vPos_z]);
+        GetVehicleZAngle(vehicleid, CurrentVehicle[playerid][vPos_a]);
+        GetVehicleHealth(vehicleid, CurrentVehicle[playerid][vHealth]);
+
+        DestroyVehicle(vehicleid);
+    }
+
+    new query[512];
+    mysql_format(Database_GetHandle(), query, sizeof(query),
+        "UPDATE `player_vehicles` SET `pos_x`=%f, `pos_y`=%f, `pos_z`=%f, `pos_a`=%f, `health`=%f WHERE `id`=%d",
+        CurrentVehicle[playerid][vPos_x],
+        CurrentVehicle[playerid][vPos_y],
+        CurrentVehicle[playerid][vPos_z],
+        CurrentVehicle[playerid][vPos_a],
+        CurrentVehicle[playerid][vHealth],
+        CurrentVehicle[playerid][vDBID]
+    );
+    mysql_tquery(Database_GetHandle(), query, "", "");
+
+    return 1;
+}
