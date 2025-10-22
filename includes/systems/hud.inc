@@ -5,8 +5,7 @@
 
 new PlayerText:welcomeText[MAX_PLAYERS]; //refactoring wip
 new PlayerText:hudMoney[MAX_PLAYERS];
-//new PlayerText:hudLevel[MAX_PLAYERS];
-//new PlayerText:hudRep[MAX_PLAYERS];
+new PlayerText:hudLevel[MAX_PLAYERS];
 
 stock CreatePlayerHUD(playerid) {
 // Money
@@ -19,6 +18,17 @@ stock CreatePlayerHUD(playerid) {
     PlayerTextDrawAlignment(playerid, hudMoney[playerid], 3); // right side
     PlayerTextDrawShow(playerid, hudMoney[playerid]);
     UpdatePlayerMoney(playerid);
+
+// Level
+    hudLevel[playerid] = CreatePlayerTextDraw(playerid, 550.0, 120.0, "Level: 0");
+    PlayerTextDrawFont(playerid, hudLevel[playerid], 1);
+    PlayerTextDrawLetterSize(playerid, hudLevel[playerid], 0.4, 1.6);
+    PlayerTextDrawColor(playerid, hudLevel[playerid], 0x0099FFFF);
+    PlayerTextDrawSetOutline(playerid, hudLevel[playerid], 1);
+    PlayerTextDrawSetProportional(playerid, hudLevel[playerid], 1);
+    PlayerTextDrawAlignment(playerid, hudLevel[playerid], 3); // right side
+    PlayerTextDrawShow(playerid, hudLevel[playerid]);
+    UpdatePlayerLevel(playerid);
 }
 
 stock UpdatePlayerMoney(playerid) {
@@ -29,7 +39,10 @@ stock UpdatePlayerMoney(playerid) {
 }
 
 stock UpdatePlayerLevel(playerid) {
-    // TODO
+    new string[32];
+    format(string, sizeof(string), "Level: %d", Player[playerid][pLevel]);
+
+    PlayerTextDrawSetString(playerid, hudLevel[playerid], string);
 }
 
 stock DestroyPlayerHUD(playerid) {
