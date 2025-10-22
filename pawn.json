@@ -3,7 +3,7 @@
   "repo": "san-andreas-gp",
   "entry": "sagp.pwn",
   "output": "gamemodes/sagp.amx",
-  "dependencies": ["pawn-lang/samp-stdlib"],
+  "dependencies": [],
   "builds": [
     {
       "name": "default",
