@@ -47,5 +47,51 @@ enum VehicleData {
 new CurrentVehicle[MAX_PLAYERS][VehicleData];
 
 stock GivePlayerStarterVehicle(playerid) {
+    new insertQuery[256];
+    new Float:angle, Float:x, Float:y, Float:z;
 
+    GetPlayerFacingAngle(playerid, angle);
+    GetPlayerPos(playerid, x, y, z);
+
+    CurrentVehicle[playerid][vModelID] = 560;
+    CurrentVehicle[playerid][vColor1] = random(256);
+    CurrentVehicle[playerid][vColor2] = random(256);
+    CurrentVehicle[playerid][vPaintjob] = -1;
+    CurrentVehicle[playerid][vPos_x] = x;
+    CurrentVehicle[playerid][vPos_y] = y;
+    CurrentVehicle[playerid][vPos_z] = z;
+    CurrentVehicle[playerid][vPos_a] = angle; //rotation / angle
+    CurrentVehicle[playerid][vHealth] = 1000.0;
+
+    mysql_format(Database_GetHandle(), insertQuery, sizeof(insertQuery),
+        "INSERT INTO `player_vehicles` (`player_id`, `model_id`, `color1`, `color2`, `paintjob`, \
+        `pos_x`, `pos_y`, `pos_z`, `pos_a`, `health`) \
+        VALUES (%d, %d, %d, %d, %d, %f, %f, %f, %f, %f)",
+        Player[playerid][pDBID],
+        CurrentVehicle[playerid][vModelID],
+        CurrentVehicle[playerid][vColor1],
+        CurrentVehicle[playerid][vColor2],
+        CurrentVehicle[playerid][vPaintjob],
+        CurrentVehicle[playerid][vPos_x],
+        CurrentVehicle[playerid][vPos_y],
+        CurrentVehicle[playerid][vPos_z],
+        CurrentVehicle[playerid][vPos_a],
+        CurrentVehicle[playerid][vHealth]
+    );
+
+    mysql_tquery(Database_GetHandle(), insertQuery, "OnVehicleCreated", "d", playerid);
+}
+
+forward OnVehicleCreated(playerid);
+public OnVehicleCreated(playerid) {
+    new vehicleDBID = cache_insert_id();
+    CurrentVehicle[playerid][vDBID] = vehicleDBID;
+
+    new updateQuery[128];
+    mysql_format(Database_GetHandle(), updateQuery, sizeof(updateQuery),
+        "UPDATE `players` SET `last_vehicle_id`=%d WHERE `id`=%d",
+        vehicleDBID,
+        Player[playerid][pDBID]
+    );
+    mysql_tquery(Database_GetHandle(), updateQuery, "", "");
 }
