@@ -109,3 +109,10 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
     }
     return 1;
 }
+
+public OnPlayerExitVehicle(playerid, vehicleid) {
+    if(vehicleid == CurrentVehicle[playerid][vSAMPID]) {
+        PutPlayerInVehicle(playerid, vehicleid, 0);
+    }
+    return 1;
+}
