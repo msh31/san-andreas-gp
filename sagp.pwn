@@ -101,3 +101,11 @@ public OnPlayerSpawn(playerid) {
 
     return 1;
 }
+
+public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
+    //lock em in, 1st param = marker on top of car
+    if(vehicleid == CurrentVehicle[playerid][vSAMPID]) {
+        SetVehicleParamsForPlayer(vehicleid, playerid, VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_ON);
+    }
+    return 1;
+}
