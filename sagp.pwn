@@ -32,7 +32,7 @@
 
 // #include "includes/commands/player.inc"
 // #include "includes/commands/race.inc"
-// #include "includes/commands/vehicle.inc"
+#include "includes/commands/vehicle.inc"
 // #include "includes/commands/admin.inc"
 
 main() {
@@ -97,7 +97,6 @@ public OnPlayerSpawn(playerid) {
     CurrentVehicle[playerid][vSAMPID] = vehicleid;
 
     PutPlayerInVehicle(playerid, vehicleid, 0);
-    SetVehicleParamsForPlayer(vehicleid, playerid, 0, 1);
 
     return 1;
 }
